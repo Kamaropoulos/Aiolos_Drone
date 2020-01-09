@@ -8,7 +8,6 @@ int MQ9 = A6;
 int MQ135 = A7;
 
 void setup() {
-
   pinMode(MQ2, INPUT);
   pinMode(MQ4, INPUT);
   pinMode(MQ5, INPUT);
@@ -18,6 +17,7 @@ void setup() {
   pinMode(MQ9, INPUT);
   pinMode(MQ135, INPUT);
   Serial.begin(9600);
+  Serial3.begin(9600);
 }
 
 void loop() {
@@ -51,5 +51,10 @@ void loop() {
       Serial.println(GAS_MQ135);
       Serial.println("\n");
     }
+  }
+
+  while (Serial3.available() > 0){
+    byte gpsData = Serial3.read();
+    Serial.write(gpsData);
   }
 }
