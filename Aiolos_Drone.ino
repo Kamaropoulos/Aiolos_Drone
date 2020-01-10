@@ -16,7 +16,7 @@ void setup() {
   pinMode(MQ8, INPUT);
   pinMode(MQ9, INPUT);
   pinMode(MQ135, INPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial3.begin(9600);
 }
 
@@ -53,8 +53,10 @@ void loop() {
     }
   }
 
-  while (Serial3.available() > 0){
-    byte gpsData = Serial3.read();
-    Serial.write(gpsData);
+  if (Serial3.available() > 0){
+    String gpsData = Serial3.readStringUntil('\n');
+    if (gpsData.startsWith("$GPRMC")){
+      Serial.println(gpsData);
+    }
   }
 }
