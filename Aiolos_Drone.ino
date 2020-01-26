@@ -1,3 +1,5 @@
+#include "RYLR896.h"
+
 #define DRONE_ID 1
 
 int MQ2 = A0;
@@ -12,6 +14,8 @@ int MQ135 = A7;
 #define GPS_SERIAL Serial1
 #define LORA_SERIAL Serial3
 
+RYLR896* lora;
+
 void setup() {
   pinMode(MQ2, INPUT);
   pinMode(MQ4, INPUT);
@@ -21,6 +25,8 @@ void setup() {
   pinMode(MQ8, INPUT);
   pinMode(MQ9, INPUT);
   pinMode(MQ135, INPUT);
+  lora = new RYLR896(&LORA_SERIAL, 115200);
+  lora->SetRFParamsLessThan3KM();
   Serial.begin(115200);
   GPS_SERIAL.begin(9600);
 }
