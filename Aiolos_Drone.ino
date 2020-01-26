@@ -64,6 +64,7 @@ void loop() {
       // Serial.println(GAS_MQ135);
       // Serial.println("\n");
       Serial.println(data);
+      lora->Send(data);
     }
   }
 }
