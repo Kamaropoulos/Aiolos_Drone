@@ -9,6 +9,9 @@ int MQ8 = A5;
 int MQ9 = A6;
 int MQ135 = A7;
 
+#define GPS_SERIAL Serial1
+#define LORA_SERIAL Serial3
+
 void setup() {
   pinMode(MQ2, INPUT);
   pinMode(MQ4, INPUT);
@@ -19,7 +22,7 @@ void setup() {
   pinMode(MQ9, INPUT);
   pinMode(MQ135, INPUT);
   Serial.begin(115200);
-  Serial3.begin(9600);
+  GPS_SERIAL.begin(9600);
 }
 
 void loop() {
@@ -32,8 +35,8 @@ void loop() {
   float GAS_MQ9 = analogRead(MQ9);
   float GAS_MQ135 = analogRead(MQ135);
 
-  if (Serial3.available() > 0){
-    String gpsData = Serial3.readStringUntil('\n');
+  if (GPS_SERIAL.available() > 0){
+    String gpsData = GPS_SERIAL.readStringUntil('\n');
     if (gpsData.startsWith("$GPRMC")){
       // |MQ2=100|MQ4=100|MQ5=100|MQ6=100|MQ7=100|MQ8=100|MQ9=100|MQ135=100
       String data = String(DRONE_ID) + "|" + gpsData + "|" + "MQ2=" + String(GAS_MQ2) + "|" + "MQ4=" + String(GAS_MQ4) + "|" + "MQ5=" + String(GAS_MQ5) + "|" + "MQ6=" + String(GAS_MQ6) + "|" + "MQ7=" + String(GAS_MQ7) + "|" + "MQ8=" + String(GAS_MQ8) + "|" + "MQ9=" + String(GAS_MQ9) + "|" + "MQ135=" + String(GAS_MQ135);
