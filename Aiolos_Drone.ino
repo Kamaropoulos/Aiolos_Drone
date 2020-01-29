@@ -27,6 +27,7 @@ void setup() {
   pinMode(MQ135, INPUT);
   lora = new RYLR896(&LORA_SERIAL, 115200);
   lora->SetRFParamsLessThan3KM();
+  lora->SetAESPassword("FABC0002EEDCAA90FABC0002EEDCAA90");
   Serial.begin(115200);
   GPS_SERIAL.begin(9600);
 }
