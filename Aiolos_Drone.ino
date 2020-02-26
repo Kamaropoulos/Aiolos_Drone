@@ -1,4 +1,4 @@
-#include "RYLR896.h"
+ #include "RYLR896.h"
 
 #define DRONE_ID 1
 
@@ -17,6 +17,8 @@ int MQ135 = A7;
 RYLR896* lora;
 
 void setup() {
+  Serial.begin(115200);
+  Serial.println("Starting up...");
   pinMode(MQ2, INPUT);
   pinMode(MQ4, INPUT);
   pinMode(MQ5, INPUT);
@@ -25,11 +27,14 @@ void setup() {
   pinMode(MQ8, INPUT);
   pinMode(MQ9, INPUT);
   pinMode(MQ135, INPUT);
+  Serial.println("Initializing communications...");
+  Serial3.begin(115200);
   lora = new RYLR896(&LORA_SERIAL, 115200);
   lora->SetRFParamsLessThan3KM();
   lora->SetAESPassword("FABC0002EEDCAA90FABC0002EEDCAA90");
-  Serial.begin(115200);
+  Serial.println("Initializing GPS...");
   GPS_SERIAL.begin(9600);
+  Serial.println("Setup completed!");
 }
 
 void loop() {
@@ -45,7 +50,6 @@ void loop() {
   if (GPS_SERIAL.available() > 0){
     String gpsData = GPS_SERIAL.readStringUntil('\n');
     if (gpsData.startsWith("$GPRMC")){
-      // |MQ2=100|MQ4=100|MQ5=100|MQ6=100|MQ7=100|MQ8=100|MQ9=100|MQ135=100
       String data = String(DRONE_ID) + "|" + gpsData + "|" + "MQ2=" + String(GAS_MQ2) + "|" + "MQ4=" + String(GAS_MQ4) + "|" + "MQ5=" + String(GAS_MQ5) + "|" + "MQ6=" + String(GAS_MQ6) + "|" + "MQ7=" + String(GAS_MQ7) + "|" + "MQ8=" + String(GAS_MQ8) + "|" + "MQ9=" + String(GAS_MQ9) + "|" + "MQ135=" + String(GAS_MQ135);
       // Serial.print("MQ2: ");
       // Serial.println(GAS_MQ2);
